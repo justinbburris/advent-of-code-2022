@@ -1,18 +1,14 @@
 signal = File.read('signal.txt')
 
-location = 1
 packet = ''
-signal.chars.each.with_index(1) do |c, i|
+location = signal.chars.each.with_index(1) do |c, i|
   packet += c
-  location = i
   packet = packet[1..-1] if packet.length == 15
-  break if packet.chars.uniq.length == 14
+  break i if packet.chars.uniq.length == 14
 end
-puts location
 
 # sliding window solution
-location = 14
-(0..signal.length).each do |i|
+location = (0..signal.length).each_with_object(14) do |i, location|
   location = i + 14
-  break if signal[i...location].chars.uniq.length == 14
+  break location if signal[i...location].chars.uniq.length == 14
 end
